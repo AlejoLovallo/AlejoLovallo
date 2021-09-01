@@ -32,12 +32,16 @@ I´m a blockchain developer and a work in progress software engineer. Always lea
 
 ## &#x1f4c8; GitHub Stats
 
-<a href="https://github.com/AlejoLovallo/AlejoLovallo">
-  <img align="center" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AlejoLovallo&hide=html,tex&layout=compact" />
-</a>
-<a href="https://github.com/AlejoLovallo">
-  <img align="center" src="https://github-readme-stats.vercel.app/api?username=AlejoLovallo&count_private=true&show_icons=true&include_all_commits=true" alt="Alejo's GitHub Stats" />
-</a>
+  <p align="center">
+  <img width="46%" src="https://github-readme-stats.vercel.app/api?username=AlejoLovallo&show_icons=true&bg_color=0d1117&theme=github_dark&include_all_commits=true&count_private=true"/>
+  <img width="34%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AlejoLovallo&layout=compact&langs_count=8&theme=github_dark"/>
+  </p>
+
+  <p align="center">
+  <a href="https://gitstats.me/AlejoLovallo"><img src="https://img.shields.io/badge/-AlejoLovallo-black?style=flat&labelColor=black&logo=github&logoColor=white"/></a>
+  <a href="https://www.linkedin.com/in/alejoe-ezequiel-lovallo/"><img src="https://img.shields.io/badge/-Alejo%20Lovallo%20-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
+  <a href="mailto:alejoe.lovallo@gmail.com"><img src="https://img.shields.io/badge/-alejoe.lovallo@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
+  </p>
 
 <!-- ## 🏆 GitHub Trophies-->
 
@@ -51,11 +55,10 @@ I´m a blockchain developer and a work in progress software engineer. Always lea
 <!-- icons without padding -->
 
 [1.2]: http://i.imgur.com/9I6NRUm.png (github icon without padding)
-[2.2]: https://raw.githubusercontent.com/mariano-aguero/mariano-aguero/master/linkedin-3-16.png (LinkedIn icon without padding)
+[2.2]: https://raw.githubusercontent.com/AlejoLovallo/AlejoLovallo/master/linkedin-3-16.png (LinkedIn icon without padding)
 
 
 <!-- links to your social media accounts -->
 
 [1]: https://github.com/AlejoLovallo
 [2]: https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/
-

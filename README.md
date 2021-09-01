@@ -39,7 +39,7 @@ I´m a blockchain developer and a work in progress software engineer. Always lea
 
   <p align="center">
   <a href="https://gitstats.me/AlejoLovallo"><img src="https://img.shields.io/badge/-AlejoLovallo-black?style=flat&labelColor=black&logo=github&logoColor=white"/></a>
-  <a href="https://www.linkedin.com/in/alejo-ezequiel-lovallo/"><img src="https://img.shields.io/badge/-Alejo%20Lovallo%20-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
+  <a href="https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/"><img src="https://img.shields.io/badge/-Alejo%20Lovallo%20-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
   <a href="mailto:alejoe.lovallo@gmail.com"><img src="https://img.shields.io/badge/-alejoe.lovallo@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
   </p>
 

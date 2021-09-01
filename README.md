@@ -34,7 +34,7 @@ I´m a blockchain developer and a work in progress software engineer. Always lea
 
   <p align="center">
   <img width="46%" src="https://github-readme-stats.vercel.app/api?username=AlejoLovallo&show_icons=true&bg_color=0d1117&theme=github_dark&include_all_commits=true&count_private=true"/>
-  <img width="34%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AlejoLovallo&layout=compact&langs_count=8&theme=github_dark"/>
+  <img width="34%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AlejoLovallo&layout=compact&langs_count=8&theme=github_dark&hide=html,tex"/>
   </p>
 
   <p align="center">
@@ -42,6 +42,8 @@ I´m a blockchain developer and a work in progress software engineer. Always lea
   <a href="https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/"><img src="https://img.shields.io/badge/-Alejo%20Lovallo%20-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
   <a href="mailto:alejoe.lovallo@gmail.com"><img src="https://img.shields.io/badge/-alejoe.lovallo@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
   </p>
+
+![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=AlejoLovallo.AlejoLovallo)
 
 <!-- ## 🏆 GitHub Trophies-->
 

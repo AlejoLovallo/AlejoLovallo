@@ -13,7 +13,7 @@ I´m a blockchain developer and a work in progress software engineer. Always lea
 ![](https://img.shields.io/badge/Code-JavaScript-informational?style=flat&logo=javascript&logoColor=white&color=2bbc8a)
 ![](https://img.shields.io/badge/Code-React-informational?style=flat&logo=react&logoColor=white&color=2bbc8a)
 ![](https://img.shields.io/badge/Code-Redux-informational?style=flat&logo=redux&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-React_Router-informational?style=flat&logo=react-router&logoColor=white&color=2bbc8a))
+![](https://img.shields.io/badge/Code-React_Router-informational?style=flat&logo=react-router&logoColor=white&color=2bbc8a)
 ![](https://img.shields.io/badge/Code-Node-informational?style=flat&logo=node.js&logoColor=white&color=2bbc8a)
 ![](https://img.shields.io/badge/Code-Express-informational?style=flat&Color=white&color=2bbc8a)
 ![](https://img.shields.io/badge/Code-Typescript-informational?style=flat&logo=typescript&logoColor=white&color=2bbc8a)

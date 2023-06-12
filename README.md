@@ -30,13 +30,6 @@ I´m a blockchain developer and a work in progress software engineer. Always lea
 ![](https://img.shields.io/badge/Cloud-Digital_Ocean-informational?style=flat&logo=digitalocean&logoColor=white&color=2bbc8a)
 ![](https://img.shields.io/badge/Cloud-Netlify-informational?style=flat&logo=netlify&logoColor=white&color=2bbc8a)
 
-## &#x1f4c8; GitHub Stats
-
-  <p align="center">
-  <img width="46%" src="https://github-readme-stats.vercel.app/api?username=AlejoLovallo&show_icons=true&bg_color=0d1117&theme=github_dark&include_all_commits=true&count_private=true"/>
-  <img width="34%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=AlejoLovallo&layout=compact&langs_count=8&theme=github_dark&hide=html,tex"/>
-  </p>
-
   <p align="center">
   <a href="https://gitstats.me/AlejoLovallo"><img src="https://img.shields.io/badge/-AlejoLovallo-black?style=flat&labelColor=black&logo=github&logoColor=white"/></a>
   <a href="https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/"><img src="https://img.shields.io/badge/-Alejo%20Lovallo%20-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>

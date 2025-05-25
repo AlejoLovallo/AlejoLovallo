@@ -1,6 +1,6 @@
 ### Hi there 👋, I am Alejo
 
-I´m a blockchain developer and a work in progress software engineer. Always learning and looking for new challenges.
+Software engineer. Blockchain Architect. Always learning and looking for new challenges.
 
 [![Linkedin Badge](https://img.shields.io/badge/-AlejoLovallo-blue?style=plastic&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/)](https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/)
 [![Gmail Badge](https://img.shields.io/badge/-alejoe.lovallo@gmail.com-c14438?style=plastic&logo=Gmail&logoColor=white&link=mailto:alejoe.lovallo@gmail.com)](mailto:alejoe.lovallo@gmail.com)

@@ -1,0 +1,37 @@
+---
+title: "EOA as Smart Wallet: Notes on Vitalik & EIP-7702"
+date: 2024-06-12
+list: blockchain-crypto
+excerpt: Overview The Ethereum community has proposed the recent EIP-7702 to improve the user experience, simplify the system, and lower the barrier to entry for new users. Mass adoption…
+mediumUrl: "https://coinsbench.com/eoa-as-smart-wallet-notes-on-vitalik-eip-7702-e2eb2520bbb5"
+---
+
+## Overview
+
+The Ethereum community has proposed the recent EIP-7702 to improve the **user experience**, **simplify the system**, and lower the barrier to entry for new users. **Mass adoption** is a reality, indeed.
+
+> EIP-7702 enhances forthcoming account abstraction frameworks such as EIP-4337, which was put into effect in March 2023. In order to reduce redundancy and disruption, it employs wallet codes and transaction structures. (Quote from Coinbase)
+
+## Background: ERC-4337 & EIP-3074
+
+EIP-7702 was proposed back in early May. This proposal came shortly after [EIP-3074](https://neptunemutual.com/blog/understanding-eip-3074-and-its-benefits/), which was considered to be included in the upcoming Pectra upgrade. It aimed to improve the user experience and lower gas costs by enhancing ERC-4337 account abstraction.
+
+## Get Alejo Lovallo’s stories in your inbox
+
+Remember me for faster sign in
+
+EIP-3074 has not fully received the welcome of the Ethereum community, mainly because It proposed the introduction of **new opcodes**to the EVM.
+
+So, EIP-7702 achieves the same purpose as EIP-3072, removing opcodes to reduce complexity, compatibility issues, development resources, and possible security risks associated with these new opcodes.
+
+## Implementation details
+
+EIP-7702 offers a new way for externally owned accounts (EOAs) to interact on the Ethereum network. This proposal allows **EOAs to temporarily function as smart contract wallets** during transactions, reverting to their original state afterward.
+
+However, the standard is **highly generic** It does not guarantee a separation between validation and execution, which might be essential for bundlers to protect themselves from being griefed by an un-trusted Smart Account implementation.
+
+## Final thoughts
+
+Although the EIP is still in development (It is still in **draft state**in the EIP process), It is widely regarded as the most promising alternative to EIP-3074.
+
+We are one step closer to **mass adoption**. EIP-7702 is undoubtedly the path to follow.

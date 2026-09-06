@@ -1,0 +1,143 @@
+---
+title: "The forgotten ERCs & EIPs: ERC-2612"
+date: 2024-02-09
+list: blockchain-crypto
+excerpt: ERC20-Approve with ease ERC-20 tokens typically need to perform a two-step and thus, two transactions operation to interact with any DeFi protocol like, for instance,…
+mediumUrl: "https://coinsbench.com/the-forgotten-ercs-eips-erc-2612-48cf0661da6d"
+---
+
+## ERC20-Approve with ease
+
+ERC-20 tokens typically need to perform a two-step (and thus, two transactions) operation to interact with any DeFi protocol like, for instance, [_Compound_](https://compound.finance/) or [_UniSwap_](https://uniswap.org/).
+
+This might not be so tedious a few years ago when web3 users accepted this kind of struggle, but right now that might be unacceptable to reach mass adoption.
+
+## Get Alejo Lovallo’s stories in your inbox
+
+Remember me for faster sign in
+
+That´s why in April 2020, after the previous EIP-712 release had enabled signing and verifying complex typed data structures, [_ERC-2612_](https://eips.ethereum.org/EIPS/eip-2612) was created.
+
+## Benefits[​](https://www.quicknode.com/guides/ethereum-development/transactions/how-to-use-erc20-permit-approval#benefits-of-eip-2612)
+
+The main benefits of ERC-2612 are:
+
+*   **Better User experience**: Users only need to approve token transfers once instead of for each transfer.
+*   **Improved security**: Permit approvals are more secure than traditional approvals because they include an expiration time and a unique nonce.
+*   **Reduced gas costs**: Permit approvals require **_fewer transactions_**, resulting in **_lower gas costs_** for users.
+
+## Technical
+
+### Enable ERC-2612 inside your ERC20
+
+*   We will start from scratch with a simple ERC20 contract, for instance, the one [_Open Zeppelin_](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol) provides. Below we can see its interface:
+
+pragma solidity ^0.8.20;
+
+interface IERC20 {
+
+function totalSupply() external view returns (uint256);
+
+ function balanceOf(address account) external view returns (uint256);
+
+ function transfer(address to, uint256 value) external returns (bool);
+
+ function allowance(address owner, address spender) external view returns (uint256);
+
+ function approve(address spender, uint256 value) external returns (bool);
+
+ function transferFrom(address from, address to, uint256 value) external returns (bool);
+
+}
+
+Now we will add three new functions:
+
+ function permit(
+
+ address owner,
+
+ address spender,
+
+ uint256 value,
+
+ uint256 deadline,
+
+ uint8 v,
+
+ bytes32 r,
+
+ bytes32 s
+
+ ) external;
+function nonces(address owner) external view returns (uint256);
+
+function DOMAIN_SEPARATOR() external view returns (bytes32);
+
+*   Domain separator function comes from **EIP-712** to uniquely identify the data structure for the permit structure.
+*   The nonces function returns a unique incremental number to avoid an attack named replay attack.
+*   Finally, the permit function is the one it will allow to send the signature belonging to the user who has approved another contract.
+
+Let´s add then, the implementation for the new interface proposed.
+
+We´ll start by adding our state variables, the permit type hash belonging to the EIP-712, and the nonces mapping.
+
+bytes32 private constant PERMIT_TYPEHASH =
+
+ keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
+mapping(address account => uint256) private _nonces;
+
+Now the nonces function:
+
+ function nonces(address owner) public view virtual returns (uint256) {
+
+ return _nonces[owner];
+
+ }
+And, finally, the so-awaited **permit function.**
+
+ function permit(
+
+ address owner,
+
+ address spender,
+
+ uint256 value,
+
+ uint256 deadline,
+
+ uint8 v,
+
+ bytes32 r,
+
+ bytes32 s
+
+ ) public {
+
+ if (block.timestamp > deadline) {
+
+ revert ERC2612ExpiredSignature(deadline);
+
+ }
+bytes32 structHash = keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, nonces(owner), deadline));
+
+bytes32 hash = _hashTypedDataV4(structHash);
+
+address signer = ECDSA.recover(hash, v, r, s);
+
+if (signer != owner) {
+
+ revert ERC2612InvalidSigner(signer, owner);
+
+ }
+
+_approve(owner, spender, value);
+
+ }
+
+Yes!, it almost has no difference from the verify function from EIP-712, because, in essence, they are almost the same EIP but applied to the ERC20 standard.
+
+Once the **signature has been verified,**the approve function will be executed. It´s important to notice that this function is marked as public, meaning **_anyone_** could call the contract to execute it and check whether the signature is valid for a given user.
+
+## There´s always more to come!
+
+The next article in this series will be EIP-2771 and meta transactions.

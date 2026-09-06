@@ -57,3 +57,15 @@ Software engineer. Blockchain Architect. Always learning and looking for new cha
 
 [1]: https://github.com/AlejoLovallo
 [2]: https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/
+
+---
+
+### ✍️ Writing
+
+I moved my Medium posts into a personal site in this repo — dark, Apple-simple, split into lists:
+
+- [Fonder / AI Treasury](/lists/fonder-ai-treasury)
+- [Blockchain / Crypto](/lists/blockchain-crypto)
+- [Reflections](/lists/reflections)
+
+See [`SITE.md`](./SITE.md) for local setup (`npm run dev`).

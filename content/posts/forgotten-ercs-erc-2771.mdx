@@ -1,0 +1,330 @@
+---
+title: "The Forgotten ERCs & EIPs: ERC 2771"
+date: 2024-04-07
+list: blockchain-crypto
+excerpt: "— ERC-2771 This is The Forgotten ERCs & EIPs’fourth article. The other articles can be found here:    EIP…"
+mediumUrl: "https://coinsbench.com/the-forgotten-ercs-eips-erc-2771-c4a73634a688"
+---
+
+## — ERC-2771
+
+This is **The Forgotten ERCs & EIPs’**_fourth_ article. The other articles can be found here:
+
+*   [**EIP 712**](https://alejolovallo.medium.com/the-forgotten-ercs-eips-eip-712-bb7a98fef408)
+*   [**ERC 165**](https://medium.com/think-and-dev/the-forgotten-ercs-eips-erc165-6291e9a4ae34)
+*   [**ERC-2612**](https://medium.com/coinsbench/the-forgotten-ercs-eips-erc-2612-48cf0661da6d)
+
+The primary purpose of these documents is to explore, explain, and understand the basics of the most common standards we, as blockchain developers, use daily.
+
+Motivation by Dune movie
+
+## Context
+
+Prior knowledge of how [_EIP-712_](https://eips.ethereum.org/EIPS/eip-712) works is recommended to understand this article properly.
+
+## Motivation (back then)
+
+There is a growing interest in making it possible for Ethereum contracts to accept calls from externally owned accounts that do not have ETH to pay for gas. Solutions that allow for third parties to pay for gas costs are called meta transactions.
+
+## Welcome Meta-Transactions
+
+*   So we are finally here! After three articles things are starting to get better and better. However, It was only possible to explain meta-transactions directly with the previous articles. Let´s make a quick catch-up:
+
+1.   **_EIP 712_** was raised and we could now sign typed and readable data.
+2.   **_EIP 2612_** allows us to sign just a particular function inside the ERC20 standard (approve function via permit)
+
+Lastly, with Meta transactions, we can now be able to sign for any function through a special contract called **Trusted****Forwarder,**which will verify the authenticity of the signer, and then it will **relay**the transaction to the **_Recipient_**smart contract.
+
+Once the Recipient contract gets called, It will unwrap the transaction, find out the original signer’s address, and process their request only after verifying the credibility of the **_Trusted Forwarder_**.
+
+In more simple words:
+
+> “Meta Transactions are a transaction where a third party, called **Relayer**, sends the transaction on behalf of the user (using the **Trusted Forwarder Contract)**and pays for the gas fees.
+> 
+> 
+> Users sign messages using **EIP-712 standard**, which have information about the transaction to be executed.”
+
+### Wait… What is a Relayer?
+
+It´s nothing more than an**Ethereum accoun**t with enough funds to pay for the transaction´s gas fees. Thus, your transaction will get **sponsored**or we could finally state we´re in the presence of a **gasless transaction.**
+
+## Get Alejo Lovallo’s stories in your inbox
+
+Remember me for faster sign in
+
+To clarify it, below is a simple diagram to understand the whole picture
+
+Gasless transaction flow
+
+### **Our first Meta Transaction**
+
+*   What do we need?
+
+1.   A Recipient contract with a function to execute through meta-transactions
+2.   A Trusted Forwarder contract
+3.   A Relayer account with enough funds to relay the user transaction signature.
+
+We will be using the following Open Zeppelin contracts to help us:
+
+*   [**ERC2771Context.sol**](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/ERC2771Context.sol)**:**It´s an EIP2771-compliant contract that has in its storage the address of the TrustedForwarder contract and a function to **extract the original sender from the transaction**. This point here is crucial because when the Trusted Forwarder relays the transaction, the Relayer account will be defined as the usual **_msg.sender._**
+
+Let´s check it out:
+
+abstract contract ERC2771Context is Context {
+
+ 
+
+ address private immutable _trustedForwarder;
+constructor(address trustedForwarder_) {
+
+ _trustedForwarder = trustedForwarder_;
+
+ }
+
+function trustedForwarder() public view virtual returns (address) {
+
+ return _trustedForwarder;
+
+ }
+
+function isTrustedForwarder(address forwarder) public view virtual returns (bool) {
+
+ return forwarder == trustedForwarder();
+
+ }
+
+function _msgSender() internal view virtual override returns (address) {
+
+ uint256 calldataLength = msg.data.length;
+
+ uint256 contextSuffixLength = _contextSuffixLength();
+
+ if (isTrustedForwarder(msg.sender) && calldataLength >= contextSuffixLength) {
+
+ return address(bytes20(msg.data[calldataLength - contextSuffixLength:]));
+
+ } else {
+
+ return super._msgSender();
+
+ }
+
+ }
+
+}
+
+As you can see, the important parts here are:
+
+*   _trustedForwarder:_
+
+ 
+
+ 
+
+ address private immutable _trustedForwarder;
+function trustedForwarder() public view virtual returns (address) {
+
+ return _trustedForwarder;
+
+ }
+
+function isTrustedForwarder(address forwarder) public view virtual returns (bool) {
+
+ return forwarder == trustedForwarder();
+
+ }
+
+*   _msg.sender()_ function
+
+ 
+
+ function _msgSender() internal view virtual override returns (address) {
+
+ uint256 calldataLength = msg.data.length;
+
+ uint256 contextSuffixLength = _contextSuffixLength();
+
+ if (isTrustedForwarder(msg.sender) && calldataLength >= contextSuffixLength) {
+
+ return address(bytes20(msg.data[calldataLength - contextSuffixLength:]));
+
+ } else {
+
+ return super._msgSender();
+
+ }
+
+ }
+*   [**ERC2771Forwarder.sol**](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/metatx/ERC2771Forwarder.sol)**:**An implementation of a TrustedForwarder contract. It has three main parts we have to be aware of:
+
+1.   _ForwardRequestData_ structure: It defines the EIP-2771-compliant data structure.
+
+ struct ForwardRequestData {
+
+ address from;
+
+ address to;
+
+ uint256 value;
+
+ uint256 gas;
+
+ uint48 deadline;
+
+ bytes data;
+
+ bytes signature;
+
+ }
+2. _Verify() function_: We will not detail how the verification is done because It works the same as we have seen in the EIP-712 standard. However, It´s important to note that besides checking whether the signature is valid, It also checks whether the transaction comes from a trusted forwarder contract and the signature is valid, which means its deadline has not expired.
+
+ 
+
+ function verify(ForwardRequestData calldata request) public view virtual returns (bool) {
+
+ (bool isTrustedForwarder, bool active, bool signerMatch, ) = _validate(request);
+
+ return isTrustedForwarder && active && signerMatch;
+
+ }
+3. _Execute() function_:
+
+ 
+
+ function execute(ForwardRequestData calldata request) public payable virtual {
+
+ 
+
+ 
+
+ 
+
+ if (msg.value != request.value) {
+
+ revert ERC2771ForwarderMismatchedValue(request.value, msg.value);
+
+ }
+if (!_execute(request, true)) {
+
+ revert Errors.FailedCall();
+
+ }
+
+ }
+
+Well, It makes nothing more than calling the internal function **_\_execute_**, so let´s check where the magic happens:
+
+ function _execute(
+
+ ForwardRequestData calldata request,
+
+ bool requireValidRequest
+
+ ) internal virtual returns (bool success) {
+
+ (bool isTrustedForwarder, bool active, bool signerMatch, address signer) = _validate(request);
+if (requireValidRequest) {
+
+ if (!isTrustedForwarder) {
+
+ revert ERC2771UntrustfulTarget(request.to, address(this));
+
+ }
+
+if (!active) {
+
+ revert ERC2771ForwarderExpiredRequest(request.deadline);
+
+ }
+
+if (!signerMatch) {
+
+ revert ERC2771ForwarderInvalidSigner(signer, request.from);
+
+ }
+
+ }
+
+if (isTrustedForwarder && signerMatch && active) {
+
+ 
+
+ uint256 currentNonce = _useNonce(signer);
+
+uint256 reqGas = request.gas;
+
+ address to = request.to;
+
+ uint256 value = request.value;
+
+ bytes memory data = abi.encodePacked(request.data, request.from);
+
+uint256 gasLeft;
+
+assembly {
+
+ success := call(reqGas, to, value, add(data, 0x20), mload(data), 0, 0)
+
+ gasLeft := gas()
+
+ }
+
+_checkForwardedGas(gasLeft, request);
+
+emit ExecutedForwardRequest(signer, currentNonce, success);
+
+ }
+
+ }
+
+Aside from a lot of checks, the execution of the transaction is held in just a few lines:
+
+bytes memory data = abi.encodePacked(request.data, request.from);
+
+assembly {
+
+ success := call(reqGas, to, value, add(data, 0x20), mload(data), 0, 0)
+
+ gasLeft := gas()
+
+ }
+*   Oz just encodes the transaction fields from the ForwarderRequestData structure and then calls the low-level **_call_ assembly**instruction**.**
+
+So, with a TrustedForwarder contract and assuming we have an account with enough ETH to pay for gas fees, let´s code a Reciever contract that supports meta transactions.
+
+pragma solidity ^0.8.20;
+import "@openzeppelin/contracts/metatx/ERC2771Context.sol";
+
+contract MyContract is ERC2771Context {
+
+ address private _owner;
+
+constructor(address trustedForwarder) ERC2771Context(trustedForwarder) {
+
+ _owner = _msgSender();
+
+ }
+
+function owner() public view returns (address) {
+
+ return _owner;
+
+ }
+
+function doSomething() public {
+
+ require(_msgSender() == _owner, "Caller is not the owner");
+
+ 
+
+ }
+
+}
+
+*   As simple as setting the trusted forwarder contract in our constructor function and then when in the function doSomething(), we call _msgSender() function we will be able to retrieve the right msg.sender address if the call was made using the forwarder contract. And that´s it!
+
+**Conclusion**: Using meta transactions in Solidity might be quite simple, but understanding how they work under the hood is not the same.
+
+## There´s always more to come!
+
+The next article in this series will be ERC 3156 and flash loans.

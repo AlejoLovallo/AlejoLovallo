@@ -1,71 +1,33 @@
-### Hi there 👋, I am Alejo
+# Alejo Lovallo
 
-Software engineer. Blockchain Architect. Always learning and looking for new challenges.
+Software engineer. Building AI treasury at [Fonder](https://fonder.la). Writing on fintech systems, agents, and blockchain.
 
-[![Linkedin Badge](https://img.shields.io/badge/-AlejoLovallo-blue?style=plastic&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/)](https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/)
-[![Gmail Badge](https://img.shields.io/badge/-alejoe.lovallo@gmail.com-c14438?style=plastic&logo=Gmail&logoColor=white&link=mailto:alejoe.lovallo@gmail.com)](mailto:alejoe.lovallo@gmail.com)
-
-## 🔧 Technologies & Tools
-![](https://img.shields.io/badge/OS-Linux-informational?style=flat&logo=linux&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Solidity-informational?style=flat&Color=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Hardhat-informational?style=flat&Color=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Graphql-informational?style=flat&logo=graphql&Color=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-JavaScript-informational?style=flat&logo=javascript&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-React-informational?style=flat&logo=react&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Redux-informational?style=flat&logo=redux&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-React_Router-informational?style=flat&logo=react-router&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Node-informational?style=flat&logo=node.js&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Express-informational?style=flat&Color=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-Typescript-informational?style=flat&logo=typescript&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-HTML5-informational?style=flat&logo=html5&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Code-CSS3-informational?style=flat&logo=css3&logoColor=white&color=2bbc8a)
-
-![](https://img.shields.io/badge/Tools-AWS-informational?style=flat&logo=aws&logoColor=white&color=2bbc8a)
-![]()
-![](https://img.shields.io/badge/Shell-Bash-informational?style=flat&logo=gnu-bash&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Tools-PostgreSQL-informational?style=flat&logo=postgresql&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Tools-MongoDB-informational?style=flat&logo=mongodb&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Tools-Docker-informational?style=flat&logo=docker&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Tools-Ubuntu-informational?style=flat&logo=ubuntu&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Cloud-Digital_Ocean-informational?style=flat&logo=digitalocean&logoColor=white&color=2bbc8a)
-![](https://img.shields.io/badge/Cloud-Netlify-informational?style=flat&logo=netlify&logoColor=white&color=2bbc8a)
-
-  <p align="center">
-  <a href="https://gitstats.me/AlejoLovallo"><img src="https://img.shields.io/badge/-AlejoLovallo-black?style=flat&labelColor=black&logo=github&logoColor=white"/></a>
-  <a href="https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/"><img src="https://img.shields.io/badge/-Alejo%20Lovallo%20-0077B5?style=flat&logo=Linkedin&logoColor=white"/></a>
-  <a href="mailto:alejoe.lovallo@gmail.com"><img src="https://img.shields.io/badge/-alejoe.lovallo@gmail.com-D14836?style=flat&logo=Gmail&logoColor=white"/></a>
-  </p>
-
-![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=AlejoLovallo.AlejoLovallo)
-
-<!-- ## 🏆 GitHub Trophies-->
-
-<!-- [![trophy](https://github-profile-trophy.vercel.app/?username=mariano-aguero&theme=flat&column=7)](https://github.com/ryo-ma/github-profile-trophy)-->
-
-
-<!-- icons with padding -->
-
-[1.1]: http://i.imgur.com/0o48UoR.png (github icon with padding)
-
-<!-- icons without padding -->
-
-[1.2]: http://i.imgur.com/9I6NRUm.png (github icon without padding)
-[2.2]: https://raw.githubusercontent.com/AlejoLovallo/AlejoLovallo/master/linkedin-3-16.png (LinkedIn icon without padding)
-
-
-<!-- links to your social media accounts -->
-
-[1]: https://github.com/AlejoLovallo
-[2]: https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/
+<p>
+  <a href="https://www.linkedin.com/in/alejo-ezequiel-lovallo-3340b315b/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
+  <a href="mailto:alejoe.lovallo@gmail.com"><img src="https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white" alt="Email" /></a>
+  <a href="https://alejolovallo.medium.com"><img src="https://img.shields.io/badge/Medium-000000?style=flat-square&logo=medium&logoColor=white" alt="Medium" /></a>
+  <a href="https://fonder.la"><img src="https://img.shields.io/badge/Fonder-111111?style=flat-square" alt="Fonder" /></a>
+</p>
 
 ---
 
-### ✍️ Writing
+## Writing
 
-I moved my Medium posts into a personal site in this repo — dark, Apple-simple, split into lists:
+Notes on AI treasury, fintech systems, and blockchain — organized into lists:
 
-- [Fonder / AI Treasury](/lists/fonder-ai-treasury)
-- [Blockchain / Crypto](/lists/blockchain-crypto)
-- [Reflections](/lists/reflections)
+- **Fonder / AI Treasury** — multi-tenancy, agentic payments, and treasury for SMBs
+- **Blockchain / Crypto** — ERCs, account abstraction, and Proof of Build
+- **Reflections** — AI platforms and where value accrues
 
-See [`SITE.md`](./SITE.md) for local setup (`npm run dev`).
+---
+
+## Stack
+
+![](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![](https://img.shields.io/badge/Next.js-000000?style=flat-square&logo=nextdotjs&logoColor=white)
+![](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB)
+![](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![](https://img.shields.io/badge/Solidity-363636?style=flat-square&logo=solidity&logoColor=white)
+![](https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white)
+![](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![](https://img.shields.io/badge/AWS-232F3E?style=flat-square&logo=amazonaws&logoColor=white)

@@ -12,8 +12,8 @@ export default function HomePage() {
         <p className="kicker">Writing</p>
         <h1>Alejo Lovallo</h1>
         <p className="lead">
-          Notes on AI treasury, fintech systems, and blockchain — moved from
-          Medium into clean lists you can actually browse.
+          Notes on AI treasury, fintech systems, and blockchain — organized
+          into lists you can actually browse.
         </p>
       </section>
 

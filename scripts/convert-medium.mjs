@@ -9,7 +9,7 @@ const LISTS = {
   "fonder-ai-treasury": {
     title: "Fonder / AI Treasury",
     description:
-      "Building the AI Treasurer — multi-tenancy, agentic payments, and treasury for LATAM SMBs.",
+      "Building the AI Treasurer — multi-tenancy, agentic payments, and treasury for SMBs.",
   },
   "blockchain-crypto": {
     title: "Blockchain / Crypto",

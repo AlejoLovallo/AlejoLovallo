@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s · Alejo Lovallo",
   },
   description:
-    "Writing on AI treasury, fintech systems, and blockchain — migrated from Medium.",
+    "Writing on AI treasury, fintech systems, and blockchain.",
 };
 
 export default function RootLayout({

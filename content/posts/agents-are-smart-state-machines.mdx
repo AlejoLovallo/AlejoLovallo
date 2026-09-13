@@ -26,6 +26,8 @@ Agents are not a new paradigm.
 
  They are state machines — with a probabilistic interface.
 
+![A Fonder agent contemplates a holographic interface in a systems lab](/imgs/agents-are-smart-state-machines/1.png)
+
 ## From microcontrollers to agents
 
 When you design firmware for a microcontroller, you don’t think in prompts.
@@ -62,6 +64,8 @@ An agent loop is just:
 4. Update state
 
 5. Repeat
+
+![Agent loop: read state, LLM decides, validate action, execute tool, update state](/imgs/agents-are-smart-state-machines/2.png)
 
 **In essence, that’s a state machine.**
 
@@ -118,10 +122,6 @@ Our agents run on structured reasoning loops (LLMs + tools) orchestrated in prod
 
 The model is not allowed to “do anything”.
 
-## Get Alejo Lovallo’s stories in your inbox
-
-Remember me for faster sign in
-
 We define a transition system:
 
 *   allowed actions (tool registry)
@@ -131,6 +131,8 @@ We define a transition system:
 The LLM proposes. The system validates. Only valid transitions are executed.
 
 Here´s an example of what a reconciliation flow may looks like:
+
+![Constrained transitions: classify, reconcile, approve, execute — the LLM proposes, the system validates](/imgs/agents-are-smart-state-machines/3.png)
 
 The key takeaway here:
 

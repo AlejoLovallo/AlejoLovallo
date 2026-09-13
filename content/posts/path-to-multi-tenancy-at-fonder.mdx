@@ -1,0 +1,232 @@
+---
+title: "Designing for scale, security, and trust: Our Path to Multi-Tenancy at Fonder"
+date: 2026-02-23
+list: fonder-ai-treasury
+excerpt: "— Fonder engineering blog — IV Introduction: Architecture as a Research Problem Good architecture does not emerge from following frameworks or applying patterns by rote. It…"
+mediumUrl: "https://alejolovallo.medium.com/designing-for-scale-security-and-trust-our-path-to-multi-tenancy-at-fonder-c45268de6fed"
+---
+
+— Fonder engineering blog — IV
+
+## Introduction: Architecture as a Research Problem
+
+Good architecture does not emerge from following frameworks or applying patterns by rote. It emerges from understanding constraints so precisely that the design space collapses naturally toward a small set of viable solutions. This article is about that collapse.
+
+F onder is building a treasury and financial operations platform for SMBs across Latin America — a market characterized by fragmented banking infrastructure, multiple currencies, high regulatory variance across jurisdictions, and customers with very different operational maturity levels. In this environment, architectural decisions are not merely engineering choices; they are commitments about what the system can guarantee.
+
+This post is a reflection on the **analysis, constraints, and trade-offs** that led us to adopt a **multi-tenant architecture** as the foundation of a fintech platform built for SMBs in LATAM.
+
+At its core, this was not a technical preference.
+
+It was a **trust decision**.
+
+## The Constraints That Shaped Every Decision
+
+Before choosing an architecture, we had to define the problem precisely. Not in abstract terms, but grounded in reality.
+
+## 1. Financial Data Changes the Rules
+
+Building a treasury and financial operations platform immediately introduces non-negotiable constraints:
+
+*   Data is **financially sensitive by default**
+*   Errors propagate into **real cash decisions**
+*   Historical data **cannot be recomputed casually**
+*   Auditing and traceability are not optional
+
+In this context, **data integrity is not a feature — it is a property of the system**.
+
+Once that premise is accepted, many otherwise “reasonable” architectural shortcuts stop being acceptable.
+
+## 2. Scale Is Not Just About Traffic
+
+When people talk about scale, they often mean throughput or request volume.
+
+For treasury systems, scale also means:
+
+*   Organizations with **very different operational behaviors**
+*   Different **regulatory and accounting contexts**
+*   Multiple currencies and banking systems
+*   Highly uneven growth curves
+
+The architecture had to scale **horizontally in complexity**, not just vertically in performance.
+
+> A system that only scales along one of these axes will hit correctness or operational walls on the others. The architecture had to be designed to scale across all five simultaneously.
+
+## 3. Durability Eventually Beats Velocity
+
+Early-stage startups must move fast.
+
+But fintech systems must also **last**.
+
+Durability raises different questions:
+
+*   Can we evolve the system without rewriting history?
+*   Can we introduce new capabilities without destabilizing existing users?
+*   Can failures be isolated rather than amplified?
+
+These questions forced us to think beyond a “single-tenant-with-flags” mindset.
+
+## The Architectural Paths We Evaluated
+
+Before converging on multi-tenancy, we evaluated the extremes.
+
+### Option 1: Full Isolation (One System per Customer)
+
+Tenant isolation diagram
+
+**Pros:**
+
+*   Strong isolation guarantees
+*   Simple mental model
+*   Clear security boundaries
+
+**Cons:**
+
+*   Operational overhead grows linearly
+*   Schema evolution becomes fragmented
+*   Cross-tenant intelligence becomes difficult
+
+**Conclusion:**
+
+This approach scales **operationally**, but not **organizationally**.
+
+In the long term, the platform becomes brittle.
+
+### Option 2: Shared Everything, Logical Separation Only
+
+**Pros:**
+
+*   Fast initial development
+*   Lower infrastructure overhead
+*   Simple deployment model
+
+**Cons:**
+
+*   Larger blast radius
+*   Security depends heavily on application correctness
+*   Harder to reason about compliance boundaries
+
+**Conclusion:** This model was never seriously considered as a viable option. While it might have been a strong fit for a fast MVP and initial release, the potential long-term issues and the significant rework it would require led us to rule it out quickly.
+
+## Why Multi-Tenancy Became the Equilibrium Point
+
+M ulti-tenancy emerged not as a compromise, but as an **equilibrium** between:
+
+*   Isolation
+*   Operability
+*   Cost efficiency
+*   Long-term evolvability
+
+Done correctly, a multi-tenant architecture enables:
+
+*   Strong logical and data isolation
+*   Controlled blast radius
+*   Consistent schema and logic evolution
+*   Shared learning across tenants, without shared risk
+
+This was not about “following best practices”.
+
+## Get Alejo Lovallo’s stories in your inbox
+
+Remember me for faster sign in
+
+It was about **aligning the system with its responsibility**.
+
+## Isolation Models: A Technical Comparison
+
+Before selecting a strategy, we formally evaluated three isolation models along multiple axes. Each model implies different trade-offs in security, operability, cost, and schema evolution.
+
+### Silo Model: Database per Tenant
+
+tenant_a/
+
+ └── postgres-instance-a 
+
+tenant_b/
+
+ └── postgres-instance-b 
+Properties
+
+*   Data isolation: Maximum — no shared infrastructure below the application layer
+*   Blast radius: Minimal — infrastructure failure is scoped to one tenant
+*   Schema evolution: Fragmented — migrations must be applied to each instance separately
+*   Cross tenant analytics: Requires federation layer or ETL into a shared warehouse
+*   Operational cost: Scales linearly with tenant count — not viable at high N
+*   Provisioning latency: High — spinning up a new DB instance takes minutes
+
+Conclusion: The silo model is operationally correct but economically unsustainable at the scale we need to reach.
+
+### Bridge Model: Schema per Tenant
+
+In the bridge model, all tenants share a single database engine, but each tenant gets their own schema namespace. This is the PostgreSQL-native approach.
+
+SET search_path = tenant_a;
+
+SELECT * FROM transactions;
+
+SET search_path = tenant_b;
+
+SELECT * FROM transactions;
+
+Properties
+
+*   Data isolation: Strong — separate physical tables per tenant
+*   Blast radius: Medium — shared DB engine, but separate tables
+*   Schema evolution: Manageable — can migrate per schema, but N migrations per release
+*   Cross tenant analytics: Easier — same DB engine
+*   Operational cost: Moderate — shared infrastructure, but schema proliferation at high N
+*   Provisioning latency: Requires schema-switching logic
+
+Conclusion: It offers a compelling middle ground, but at scale it becomes operationally expensive in ways that aren’t obvious early on. Schema proliferation — hundreds or thousands of namespaces in a single database — introduces real overhead in migration tooling, connection pool configuration, and query planning. The isolation guarantee is structural but fragile, and in a financial system, fragile guarantees are not guarantees at all.
+
+### Pool Model: Shared Schema with Row-Level Security
+
+In the pool model, all tenants share the same schema. Isolation is enforced via Row-Level Security (RLS) policies at the database engine level, rather than at the application layer.
+
+Properties
+
+*   Data isolation: Logical — enforced by DB engine, bypassed if RLS is disabled or misconfigured
+*   Blast radius: Higher — a bug in the security layer is systemic
+*   Schema evolution: Simplest — one migration per release, applied once
+*   Cross tenant analytics: Straightforward
+*   Operational cost: Lowest — maximum infrastructure sharing
+*   Provisioning latency: All indexes must include tenant_id as a leading column
+
+Conclusion: The pool model is the most operationally efficient, but it concentrates risk in a way we weren’t willing to accept as a default. For a platform handling real cash decisions, systemic failure modes are a non-starter.
+
+## Our Hybrid Approach
+
+As a result of our analysis, Fonder operates across all three models simultaneously, each applied where its properties are strongest, connected by a set of shared services. **No single layer is responsible for security in isolation; the guarantees emerge from the composition.**
+
+The result is a system where isolation costs don’t scale linearly with tenant count, operational overhead stays flat as we grow, and security properties are structural rather than procedural.
+
+**_At scale, the marginal infrastructure cost of adding a new tenant approaches zero — not because we cut corners, but because the architecture was designed from the start so that complexity lives in the platform, not in each new customer we onboard._**
+
+## Security and Data Integrity as First-Class Inputs
+
+A key realization was that **security cannot be layered on top of architecture**.
+
+It must be embedded into:
+
+*   Tenant boundaries
+*   Data access patterns
+*   Operational workflows
+*   Failure modes
+
+Multi-tenancy forced us to explicitly define **system invariants**:
+
+*   What data can never cross tenant boundaries
+*   What operations must be idempotent
+*   What guarantees must hold even under partial failure
+
+Data integrity and invariants
+
+These invariants shaped more decisions than any specific technology choice.
+
+## A final Reflection: What Multi-tenancy actually forced us to think about
+
+Architecture is not about frameworks. **It’s about reducing the impact of future failures.**
+
+Choosing multi-tenancy wasn’t a checkbox decision.
+
+**It was the result of a deep understanding of the kind of company — and the level of responsibility — we are building at Fonder.**

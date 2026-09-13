@@ -1,0 +1,14 @@
+{
+  "fonder-ai-treasury": {
+    "title": "Fonder / AI Treasury",
+    "description": "Building the AI Treasurer — multi-tenancy, agentic payments, and treasury for LATAM SMBs."
+  },
+  "blockchain-crypto": {
+    "title": "Blockchain / Crypto",
+    "description": "ERCs, account abstraction, and Proof of Build — notes from the chain."
+  },
+  "reflections": {
+    "title": "Reflections",
+    "description": "Personal takes on AI platforms, operating systems, and where value accrues."
+  }
+}

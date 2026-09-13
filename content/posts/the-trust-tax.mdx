@@ -1,0 +1,130 @@
+---
+title: The Trust Tax
+date: 2026-07-31
+list: fonder-ai-treasury
+excerpt: — Why AI makes financial software easier to build — and harder to earn trust in. AI is making financial software dramatically easier to build. A small team can now prototype a…
+mediumUrl: "https://alejolovallo.medium.com/the-trust-tax-628459cdc970"
+---
+
+— Why AI makes financial software easier to build — and harder to earn trust in.
+
+AI is making financial software dramatically easier to build.
+
+A small team can now prototype a payment flow over a weekend. Build a polished dashboard in days. Connect APIs, design an interface, generate integrations, and launch an MVP with a fraction of the time and capital it would have required only a few years ago.
+
+But it also creates a new problem.
+
+Because in fintech, building the product is only part of the work.
+
+**The other part is earning the right to be trusted with money.**
+
+That is what we call the trust tax.
+
+![A flask under pressure, sparks and smoke escaping as the glass starts to crack](/imgs/the-trust-tax/01.png)
+
+## A payment flow is not a payment system
+
+It is easy to build a screen that says:
+
+> _Payment completed._
+
+It is much harder to know that:
+
+*   The payment reached the right supplier.
+*   The amount was correct.
+*   It was not duplicated.
+*   The balance updated correctly.
+*   The ledger can explain what happened months later.
+*   A failure in a banking API does not create a financial inconsistency.
+
+The visible product is increasingly cheap to create.
+
+The invisible product is not.
+
+Reconciliation, auditability, permissions, retries, incident response, accounting integrity, and operational controls are rarely the part that gets shown in a demo.
+
+But they are the part customers are actually trusting.
+
+> Nobody buys financial software because its reconciliation logic looks beautiful.
+> 
+> 
+> They expect not to think about reconciliation at all.
+
+*   They expect the balance on the screen to match the balance in the bank.
+*   They expect a payment marked as complete to actually be complete.
+
+That expectation is the product.
+
+![Close-ups of a glowing financial ticker board with live market figures](/imgs/the-trust-tax/02.png)
+
+## AI reduces production cost. It does not reduce accountability.
+
+An AI model can generate a payment flow quickly. It cannot take responsibility when that payment fails.
+
+It cannot explain a missing transaction to a CFO. It cannot decide whether a system should stop processing payments after detecting inconsistent data. It cannot carry the operational consequences of moving fast in the wrong place.
+
+That responsibility still belongs to the company building the system. In this case, it belongs to [Fonder](http://fonder.la/).
+
+_And that is where the trust tax appears._
+
+*   The extra review before shipping a financial workflow.
+*   The engineering effort behind a system that feels boring because nothing unexpected happens.
+
+These are not glamorous tasks. They do not make for great launch videos. They are hard to measure in a roadmap, because their value often appears as the absence of a problem.
+
+## Not every part of a product has the same cost of failure
+
+There are parts of a product where moving fast is not only acceptable, but desirable. Layouts, dashboards, internal workflows, and experiments can be iterated on rapidly. Most mistakes are visible, reversible, and cheap.
+
+Financial infrastructure is different.
+
+A mistake in a payment workflow can create consequences that compound:
+
+*   A supplier does not get paid.
+*   A company loses visibility into its cash position.
+*   A duplicated transaction affects a monthly close.
+*   A reconciliation gap becomes an accounting problem.
+
+This is why the question should not be:
+
+*   _How fast can we build this?_
+
+It should be:
+
+*   _What happens if this is wrong?_
+
+The answer determines how much trust tax the feature requires.
+
+## The visible layer is becoming a commodity
+
+Every company will have better interfaces. Faster prototypes. More integrations. More features shipped in less time.
+
+**It means the visible layer becomes less differentiated.**
+
+The real advantage will increasingly sit underneath it.
+
+*   In the systems that can recover from failure.
+*   In the processes that make financial data explainable.
+*   In the controls that prevent a small error from becoming a large one.
+
+**_In the judgment to know when automation should stop and a human should decide._**
+
+> The companies that win will be the ones that make complex financial operations feel simple, predictable, and safe.
+
+![Two institutions linked by a direct golden path over a maze of locks, gates, and paperwork](/imgs/the-trust-tax/03.png)
+
+## The trust tax is not friction
+
+It is tempting to see these processes as slowing innovation. I think the opposite is true.
+
+**They are what make innovation durable.**
+
+Without trust, speed creates fragile products. You can launch impressive features and still lose credibility with a single failure that affects someone’s money.
+
+The trust tax is not bureaucracy for its own sake. It is the cost of building something people can depend on.
+
+In the AI era, building software may become cheaper.
+
+**Earning trust will not.**
+
+And for financial infrastructure, that may be the most valuable thing left to build.

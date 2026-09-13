@@ -1,0 +1,236 @@
+---
+title: "The forgotten ERCs & EIPs: EIP-712"
+date: 2023-09-26
+list: blockchain-crypto
+excerpt: "— EIP 712 Sep 26, 2023 This is The Forgotten ERCs & EIPs'second article the first one herehttps://alejolovallo.medium.com/the-forgotten-ercs-eips-erc165-6291e9a4ae34.  The primary…"
+mediumUrl: "https://coinsbench.com/the-forgotten-ercs-eips-eip-712-bb7a98fef408"
+---
+
+## — EIP 712
+
+Sep 26, 2023
+
+This is **The Forgotten ERCs & EIPs'**second article (the first one [here](https://alejolovallo.medium.com/the-forgotten-ercs-eips-erc165-6291e9a4ae34)). 
+
+The primary purpose of these documents is to explore, explain, and understand the basics of the most common standards we, as blockchain developers, use on a daily basis.
+
+### Background — Why do we sign?
+
+Ethereum transactions often involve signing data to **prove ownership** or authorization.
+
+Typically, this data is represented as a hash of various fields, and this approach has some **drawbacks**:
+
+1.   It’s hard to understand the meaning of the data being signed.
+2.   Changing the data structure would invalidate old signatures.
+3.   Off-chain services that use these signatures may not know how to interpret the data correctly.
+
+why do we sign?
+
+### Before EIP-712
+
+Back in the day, It was difficult for users to verify the data they were asked to sign, which made it all too easy for them **to place more trust than they should**in dApps that use signed messages as the basis for consequential value transfers.
+
+So, the Ethereum developer community came up with a way of knowing precisely what users are signing, without having to go through the trouble of reconstructing a cryptographic hash all by themselves.
+
+## EIP-712: Let´s sign data!
+
+*   [EIP Document](https://eips.ethereum.org/EIPS/eip-712)
+
+EIP-712 proposes a standardized way of structuring the data to be signed. Instead of hashing arbitrary data, the proposal defines a data schema in a **human-readable format**.
+
+So now, instead of just signing a bytes string completely unreadable, you will be able to know exactly what are you signing in a dapp interaction through any wallet, for instance, Metamask.
+
+Then, the undisputed benefits are:
+
+*   **Interoperability**: Both dapps and services can now use just **one and standardized message format,**ensuring compatibility.
+*   **Improved security**: Easier to understand the data being signed and reduces the risk of misinterpretation.
+
+## Signing breakdown
+
+To implement EIP-712 a smart contract must follow the following steps:
+
+1.   **Define data schema**: as simple as declaring the Solidity struct your users will sign.
+2.   Design your **DOMAIN_SEPARATOR**: This is a mandatory field to avoid a signature collision.
+
+For instance, it is far more than possible that two smart contracts in the chain set the same data schema:
+
+struct A {
+
+ uint256 balance;
+
+ address user;
+
+}
+Then, by providing a unique domain separator there´s no problem with defining identical data schemes.
+
+3. **Develop sign function**: As simple as encoding the data schema and the domain separator field. This step could also be done through web3 API by calling `web3.eth.signTypedData(typedData, address [, callback])`
+
+## Get Alejo Lovallo’s stories in your inbox
+
+Remember me for faster sign in
+
+4. **Signature verification functions**: Here you have to recover the signer address through the usage of cryptographic functions (for instance, ECDSA) and then check that the provided address matches the signer.
+
+## Fully working example
+
+The following contract uses the Open Zeppelin ECDSA library for signature verification.
+
+pragma solidity ^0.8.0;
+import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+
+contract UserProfile {
+
+ using ECDSA for bytes32;
+
+struct Profile {
+
+ string name;
+
+ uint256 age;
+
+ address wallet;
+
+ }
+
+bytes32 private domainSeparator;
+
+constructor() {
+
+ domainSeparator = keccak256(
+
+ abi.encode(
+
+ keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"),
+
+ keccak256("User Profile"),
+
+ keccak256("1"),
+
+ block.chainid,
+
+ address(this)
+
+ )
+
+ );
+
+ }
+
+bytes32 private constant PROFILE_TYPEHASH = keccak256("Profile(string name,uint256 age,address wallet)");
+
+function getDomainSeparator() public view returns (bytes32) {
+
+ return domainSeparator;
+
+ }
+
+function hashUserProfile(Profile memory profile) public view returns (bytes32) {
+
+ bytes32 digest = keccak256(
+
+ abi.encodePacked(
+
+ "\x19\x01",
+
+ getDomainSeparator(),
+
+ keccak256(abi.encode(PROFILE_TYPEHASH, profile.name, profile.age, profile.wallet))
+
+ )
+
+ );
+
+ return digest;
+
+ }
+
+function verifyUserProfile(
+
+ address signer,
+
+ Profile memory profile,
+
+ bytes memory signature
+
+ ) public view returns (bool) {
+
+ bytes32 digest = keccak256(
+
+ abi.encodePacked(
+
+ "\x19\x01",
+
+ getDomainSeparator(),
+
+ keccak256(abi.encode(PROFILE_TYPEHASH, profile.name, profile.age, profile.wallet))
+
+ )
+
+ );
+
+return digest.recover(signature) == signer;
+
+ }
+
+}
+
+## Principle of the Validation
+
+When the contract owner’s address is known, the public key is **reversed** via the signed message, and the public key is turned to an address. If the address matches the initiator’s address, the verification succeeds.
+
+In the above example, we are making use of the **recover**built-in function provided by solidity for bytes32.
+
+However, let´s deep dive into this function. The same could accomplished by using the following function:
+
+function verify(address signer, Profile memory profile,bytes32 r, bytes32 s, uint8 v) public pure returns (bool) {
+
+ return signer == ecrecover(hashUserProfile(profile), v,r,s);
+
+}
+The `ethrecover` function is used to recover the Ethereum address associated with a given signature and message hash.
+
+### V, R, S params explained
+
+*   `v`: The recovery ID, which is typically the last byte of the signature (`0x00` or `0x01`).
+*   `r`: The first 32 bytes of the signature.
+*   `s`: The second 32 bytes of the signature.
+
+From [Solidity by example](https://solidity-by-example.org/signature/):
+
+ assembly { 
+r := mload(add(sig, 32))
+
+ // second 32 bytes
+
+ s := mload(add(sig, 64))
+
+ // final byte (first byte of the next 32 bytes)
+
+ v := byte(0, mload(add(sig, 96)))
+
+ }
+
+### Validation process
+
+The process of verifying the signature involves two sub-processes:
+
+1.   **Recovery process**
+
+*   The `v` value is adjusted to ensure it's either `27` or `28`.
+
+27: For uncompressed public keys
+
+28: For compressed public keys
+
+*   The adjusted `v` value is combined with `r` and `s` to recreate the full 65-byte signature.
+*   Using the full signature and the provided `messageHash`, elliptic curve cryptography (ECDSA) algorithm is used to recover the public key.
+*   From the recovered public key, the Ethereum address can be derived.
+
+**2. Address derivation**
+
+*   The Ethereum address is derived**from the recovered public key** using a hash function, usually Keccak-256.
+*   The last 20 bytes of the hash result (160 bits) represent the Ethereum address.
+
+### There´s always more to come!
+
+The next article in this series will be EIP-2612 and the permit function.

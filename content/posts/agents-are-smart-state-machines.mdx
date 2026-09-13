@@ -1,0 +1,224 @@
+---
+title: Agents are (smart) state machines.
+date: 2026-04-20
+list: fonder-ai-treasury
+excerpt: — How we design and develop Agents at Fonder. Fonder engineering blog V. At Fonder, we are AI-native by design — but we approach agents with system-first principles. And that…
+mediumUrl: "https://alejolovallo.medium.com/agents-are-smart-state-machines-88ad01c308c1"
+---
+
+— How we design and develop Agents at Fonder.
+
+Fonder engineering blog V.
+
+**At Fonder, we are AI-native by design — but we approach agents with system-first principles.
+
+And that changes how we think about agents.**
+
+Our background is systems, infrastructure, and (in some cases) even electronics — microcontrollers, embedded logic, systems that _must_ behave predictably.
+
+So when we started building agents for financial operations, something felt familiar.
+
+Because the way agents are usually presented — autonomous, adaptive, intelligent — sounds very different from the systems we’re used to trusting.
+
+**_But when you look closer, the gap disappears._**
+
+Agents are not a new paradigm.
+
+ They are state machines — with a probabilistic interface.
+
+## From microcontrollers to agents
+
+When you design firmware for a microcontroller, you don’t think in prompts.
+
+You think in:
+
+*   states
+*   transitions
+*   interrupts
+*   inputs and outputs
+
+Everything is explicit. **Every transition is controlled.**
+
+And most importantly:
+
+> You always know what the system will do next.
+
+Now compare that to **_how most agents are built today_**:
+
+1.   A prompt
+2.   A set of tools
+3.   A loop
+
+At first glance, they look completely different. But structurally, they are not.
+
+An agent loop is just:
+
+1. Read state (context)
+
+2. Decide next action (LLM)
+
+3. Execute action (tool)
+
+4. Update state
+
+5. Repeat
+
+**In essence, that’s a state machine.**
+
+The only difference is that the transition function is no longer deterministic.
+
+## The real shift: deterministic → probabilistic transitions
+
+In embedded systems, given an input, the output is fixed. In agents, **given an input, the output is likely.**
+
+That single change breaks a lot of assumptions.
+
+Because now:
+
+- Transitions are not guaranteed.
+
+- Paths are not predictable. 
+
+- Edge cases are not enumerable.
+
+And yet, we’re trying to plug this into systems that require strict guarantees.
+
+Especially in treasury and finance.
+
+Agents can have, if not controlled, at any time:
+
+*   Unexpected transitions
+*   Invalid states
+*   Repeated actions
+*   Silent failures
+
+The difference is that in embedded systems, this would be unacceptable.
+
+In AI, it’s often shrugged off as “model behavior”. That’s a mistake.
+
+So let´s wrap up some lessons learnt while developing, deploying and managing agents at [**_Fonder_**](https://fonder.la/).
+
+### 1. Explicit state > implicit context
+
+In many agent setups, the state lives inside the prompt. That’s fragile.
+
+Instead, we externalize state:
+
+- current step 
+
+- previous actions 
+
+- system variables
+
+The LLM reads the state. It doesn’t own it.
+
+Our agents run on structured reasoning loops (LLMs + tools) orchestrated in production, not just prompt chains.
+
+### 2. Constrained transitions
+
+The model is not allowed to “do anything”.
+
+## Get Alejo Lovallo’s stories in your inbox
+
+Remember me for faster sign in
+
+We define a transition system:
+
+*   allowed actions (tool registry)
+*   valid sequences (state graph)
+*   termination conditions (exit states)
+
+The LLM proposes. The system validates. Only valid transitions are executed.
+
+Here´s an example of what a reconciliation flow may looks like:
+
+The key takeaway here:
+
+> Intelligence still matters — but without control, it doesn’t survive production.
+
+### 3. Idempotent execution
+
+In embedded systems, you assume things can fail.
+
+Same here. Every tool call must be:
+
+*   **Retryable** → safe under transient failures
+*   **Idempotent** → same input ⇒ same effect
+*   **Observable** → emits structured logs/events
+
+Otherwise, you’re one network glitch away from inconsistency.
+
+### 4. Interrupts = human-in-the-loop
+
+Microcontrollers have interrupts. **Agents should too.**
+
+When uncertainty is high:
+
+*   Pause execution
+*   Escalate
+*   Require approval
+
+**_Autonomy is not the goal. Controlled execution is._**
+
+### 5. Logging is not debugging — it’s traceability
+
+We audit everything; we did not log for debugging, we log for reconstruction.
+
+- state transitions 
+
+- model decisions 
+
+- tool executions
+
+This is implemented via structured tracing, allowing replay and inspection.
+
+The goal is simple:
+
+Given any outcome, we can reconstruct the exact execution path.
+
+If you can’t answer: “Why did the system do this?”
+
+You don’t have a production-ready agent system — especially not in finance.
+
+### 6. Evals are part of the system, not an afterthought
+
+Agents are probabilistic.
+
+So correctness is not guaranteed — it must be measured.
+
+We treat evaluations as a first-class component:
+
+*   Define expected behaviors (per state/action).
+*   Score outputs continuously.
+
+This allows us to:
+
+*   Detect regressions
+*   Compare model / prompt changes
+*   Quantify confidence over time
+
+Evals are not just offline benchmarks. They are integrated into the execution loop.
+
+Without evals, you don’t have an improving system — you have a drifting one.
+
+## Agents are closer to firmware than to chatbots
+
+This is the mental shift that matters. We’re not building conversations.
+
+**We’re building execution systems with a probabilistic brain.**
+
+And that means:
+
+*   Reliability matters more than intelligence.
+*   Constraints matter more than creativity.
+*   Systems design matters more than prompts.
+
+LLMs made it easy to build demos. They did not make it easy to build systems.
+
+So instead of asking:
+
+> “How smart is the model?”
+
+We should be asking:
+
+> “How controlled is the system around it?”

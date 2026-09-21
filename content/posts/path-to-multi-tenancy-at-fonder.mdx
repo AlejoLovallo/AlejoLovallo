@@ -8,6 +8,8 @@ mediumUrl: "https://alejolovallo.medium.com/designing-for-scale-security-and-tru
 
 — Fonder engineering blog — IV
 
+![Abstract red and black waves](/imgs/path-to-multitenancy-at-fonder/1.png)
+
 ## Introduction: Architecture as a Research Problem
 
 Good architecture does not emerge from following frameworks or applying patterns by rote. It emerges from understanding constraints so precisely that the design space collapses naturally toward a small set of viable solutions. This article is about that collapse.
@@ -52,6 +54,8 @@ The architecture had to scale **horizontally in complexity**, not just verticall
 
 > A system that only scales along one of these axes will hit correctness or operational walls on the others. The architecture had to be designed to scale across all five simultaneously.
 
+![Multi-dimensional scale: tenant volume, operational heterogeneity, regulatory variance, currency complexity and data volume asymmetry, with their architectural impact](/imgs/path-to-multitenancy-at-fonder/2.png)
+
 ## 3. Durability Eventually Beats Velocity
 
 Early-stage startups must move fast.
@@ -72,7 +76,7 @@ Before converging on multi-tenancy, we evaluated the extremes.
 
 ### Option 1: Full Isolation (One System per Customer)
 
-Tenant isolation diagram
+![Tenant isolation: Tenant A, B and C each with their own app instance and database](/imgs/path-to-multitenancy-at-fonder/4.png)
 
 **Pros:**
 
@@ -117,6 +121,8 @@ M ulti-tenancy emerged not as a compromise, but as an **equilibrium** between:
 *   Cost efficiency
 *   Long-term evolvability
 
+![Four pillars of multi-tenancy: isolation, operability, cost efficiency and long-term evolvability](/imgs/path-to-multitenancy-at-fonder/3.png)
+
 Done correctly, a multi-tenant architecture enables:
 
 *   Strong logical and data isolation
@@ -125,10 +131,6 @@ Done correctly, a multi-tenant architecture enables:
 *   Shared learning across tenants, without shared risk
 
 This was not about “following best practices”.
-
-## Get Alejo Lovallo’s stories in your inbox
-
-Remember me for faster sign in
 
 It was about **aligning the system with its responsibility**.
 
@@ -219,7 +221,7 @@ Multi-tenancy forced us to explicitly define **system invariants**:
 *   What operations must be idempotent
 *   What guarantees must hold even under partial failure
 
-Data integrity and invariants
+![Data integrity and invariants: audit logs, consistency rules and immutable records](/imgs/path-to-multitenancy-at-fonder/5.png)
 
 These invariants shaped more decisions than any specific technology choice.
 

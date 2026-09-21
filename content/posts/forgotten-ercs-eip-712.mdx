@@ -65,10 +65,6 @@ Then, by providing a unique domain separator there´s no problem with defining i
 
 3. **Develop sign function**: As simple as encoding the data schema and the domain separator field. This step could also be done through web3 API by calling `web3.eth.signTypedData(typedData, address [, callback])`
 
-## Get Alejo Lovallo’s stories in your inbox
-
-Remember me for faster sign in
-
 4. **Signature verification functions**: Here you have to recover the signer address through the usage of cryptographic functions (for instance, ECDSA) and then check that the provided address matches the signer.
 
 ## Fully working example

@@ -17,6 +17,7 @@ export type PostMeta = {
   list: ListId;
   excerpt: string;
   mediumUrl?: string;
+  cover?: string;
   readingMinutes: number;
 };
 
@@ -52,6 +53,12 @@ export function getListIds(): ListId[] {
   return Object.keys(getLists()) as ListId[];
 }
 
+function findCover(data: matter.GrayMatterFile<string>["data"], content: string) {
+  if (data.cover) return String(data.cover);
+  const match = content.match(/!\[[^\]]*\]\((\/[^)\s]+)/);
+  return match?.[1];
+}
+
 function parsePost(slug: string, raw: string): Post {
   const { data, content } = matter(raw);
   const stats = readingTime(content);
@@ -63,6 +70,7 @@ function parsePost(slug: string, raw: string): Post {
     list: data.list as ListId,
     excerpt: String(data.excerpt ?? ""),
     mediumUrl: mediumUrl ? String(mediumUrl) : undefined,
+    cover: findCover(data, content),
     readingMinutes: Math.max(1, Math.round(stats.minutes)),
     content,
   };
